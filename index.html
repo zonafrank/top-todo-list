@@ -16,47 +16,55 @@
   </head>
   <body>
     <div id="root">
-      <form id="todo-form">
-        <h2>Add Todo</h2>
-        <div class="form-input">
-          <label for="title">
-            Title: <input type="text" id="title" name="title" />
-          </label>
+      <div id="cotrols">
+        <div class="side-bar">
+          <h2>Filter</h2>
+          <select name="filter" id="filter"></select>
         </div>
-        <div class="form-input">
-          <label for="due-date"
-            >Due date: <input type="date" name="due-date" id="due-date"
-          /></label>
-        </div>
-        <div class="form-input">
-          <label for="project"
-            >Project: <input type="text" name="project" id="project"
-          /></label>
-        </div>
-        <div class="form-input">
-          <label for="todo-important-true"
-            ><input
-              type="radio"
-              name="important"
-              id="important-true"
-              value="1"
-            />
-            Important</label
-          >
-          <label for="important-false"
-            ><input
-              type="radio"
-              name="important"
-              id="important-false"
-              value="0"
-              checked
-            />
-            Not Important</label
-          >
-        </div>
-        <button type="submit">Save</button>
-      </form>
-      <h2>Todo List</h2>
+      </div>
+      <div id="main">
+        <form id="todo-form">
+          <h2>Add Todo</h2>
+          <div class="form-input">
+            <label for="title">
+              Title: <input type="text" id="title" name="title" />
+            </label>
+          </div>
+          <div class="form-input">
+            <label for="due-date"
+              >Due date: <input type="date" name="due-date" id="due-date"
+            /></label>
+          </div>
+          <div class="form-input">
+            <label for="project"
+              >Project: <input type="text" name="project" id="project"
+            /></label>
+          </div>
+          <div class="form-input">
+            <label for="todo-important-true"
+              ><input
+                type="radio"
+                name="important"
+                id="important-true"
+                value="1"
+              />
+              Important</label
+            >
+            <label for="important-false"
+              ><input
+                type="radio"
+                name="important"
+                id="important-false"
+                value="0"
+                checked
+              />
+              Not Important</label
+            >
+          </div>
+          <button type="submit">Save</button>
+        </form>
+        <h2>Todo List</h2>
+      </div>
     </div>
 
     <script src="index.js"></script>

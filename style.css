@@ -3,9 +3,14 @@ body {
 }
 
 #root {
-  max-width: 400px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+}
+
+#main {
+  margin: auto;
+  width: 50%;
 }
 
 .todos {
@@ -19,8 +24,12 @@ body {
   padding: 0.3rem;
 }
 
-.todo-title {
+.title {
   margin-right: auto;
+}
+
+.todo-title {
+  cursor: pointer;
 }
 
 .todo-completed .todo-title {
@@ -43,4 +52,12 @@ body {
 .form-input [type="radio"] {
   display: inline-block;
   width: unset;
+}
+
+.hidden {
+  display: none;
+}
+
+.hide-detail-btn {
+  font-size: 0.6rem;
 }

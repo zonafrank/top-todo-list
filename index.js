@@ -1,25 +1,31 @@
 (() => {
-  let todos = [
+  const storedSelectedProject = window.localStorage.getItem("selectedProject");
+  let selectedProject = JSON.parse(storedSelectedProject) || "";
+  const storedTodos = window.localStorage.getItem("todos");
+  let todos = JSON.parse(storedTodos) || [
     {
       id: 0,
       title: "take a cup of coffee",
       dueDate: getRandomFutureDate(10),
       isImportant: false,
-      isCompleted: false
+      isCompleted: false,
+      project: "default"
     },
     {
       id: 1,
       title: "take a cup of green tea",
       dueDate: getRandomFutureDate(10),
       isImportant: false,
-      isCompleted: false
+      isCompleted: false,
+      project: "default"
     },
     {
       id: 2,
       title: "visit the museum",
       dueDate: getRandomFutureDate(10),
       isImportant: true,
-      isCompleted: false
+      isCompleted: false,
+      project: "default"
     }
   ];
 
@@ -29,11 +35,14 @@
     return tomorrow;
   }
 
-  function getTodos(filter) {
-    if (filter) {
-      return todos[filter];
+  function getTodos() {
+    if (selectedProject) {
+      if (selectedProject === "all") {
+        return todos;
+      } else {
+        return todos.filter((todo) => todo.project === selectedProject);
+      }
     }
-
     return todos;
   }
 
@@ -41,13 +50,11 @@
     const todoElemContainer = e.target.closest(".todo");
     const todoId = todoElemContainer.dataset.todoId;
     const foundTodo = todos.find((todo) => todo.id === Number(todoId));
-    console.log({ foundTodo });
     foundTodo.isCompleted = !foundTodo.isCompleted;
     renderTodos();
   }
 
   function handleEditTodo(e) {
-    console.log("editing todo...");
     const todoElemContainer = e.target.closest(".todo");
     let titleElem = todoElemContainer.querySelector(".todo-title");
     const clonedTitleElem = titleElem.cloneNode("deep");
@@ -73,7 +80,6 @@
     );
 
     if (confirmDelete) {
-      console.log(todoElemContainer.innerText);
       const todoId = todoElemContainer.dataset.todoId;
       todos = todos.filter((todo) => todo.id !== Number(todoId));
       renderTodos();
@@ -91,11 +97,40 @@
     parentElem.appendChild(completedElem);
   }
 
-  function addTodoTitle(parentElem, text) {
-    const titleElem = document.createElement("div");
-    titleElem.textContent = text;
-    titleElem.classList.add("todo-title");
-    parentElem.appendChild(titleElem);
+  function addTodoTitle(parentElem, todo) {
+    const handleShowDetail = () => {
+      const detailElement = parentElem.querySelector(".todo-detail");
+      detailElement.classList.toggle("hidden");
+    };
+
+    const handleHideDetail = () => {
+      const detailElement = parentElem.querySelector(".todo-detail");
+      detailElement.classList.add("hidden");
+    };
+
+    const todoTitle = document.createElement("div");
+    todoTitle.classList.add("title");
+    const todoTitleText = document.createElement("div");
+    todoTitleText.textContent = todo.title;
+    todoTitleText.classList.add("todo-title");
+    todoTitleText.addEventListener("click", handleShowDetail);
+    todoTitle.appendChild(todoTitleText);
+    const todoDetail = document.createElement("div");
+    todoDetail.classList.add("todo-detail");
+    const dueDateElem = document.createElement("div");
+    dueDateElem.textContent = new Date(todo.dueDate).toLocaleDateString();
+    const priorityElem = document.createElement("div");
+    priorityElem.textContent = todo.isImportant ? "Important" : "Not important";
+    const hideBtn = document.createElement("button");
+    hideBtn.classList.add("hide-detail-btn");
+    hideBtn.textContent = "Hide";
+    hideBtn.addEventListener("click", handleHideDetail);
+    todoDetail.appendChild(dueDateElem);
+    todoDetail.appendChild(priorityElem);
+    todoDetail.appendChild(hideBtn);
+    todoDetail.classList.add("hidden");
+    todoTitle.appendChild(todoDetail);
+    parentElem.appendChild(todoTitle);
   }
 
   function addTodoEditIcon(parentElem) {
@@ -124,7 +159,7 @@
     }
     todoListElem.dataset.todoId = todo.id;
     addTodoCompletedIcon(todoListElem, todo.isCompleted);
-    addTodoTitle(todoListElem, todo.title);
+    addTodoTitle(todoListElem, todo);
     addTodoEditIcon(todoListElem);
     addTodoDeleteIcon(todoListElem);
     return todoListElem;
@@ -143,8 +178,36 @@
     return todosContainer;
   }
 
+  function handleFilterChange(e) {
+    const { value } = e.target;
+    if (value) {
+      selectedProject = value;
+      window.localStorage.setItem("selectedProject", JSON.stringify(value));
+      renderTodos();
+    }
+  }
+
+  function buildAndAttachFilter() {
+    const projects = new Set(todos.map((todo) => todo.project));
+    projects.add("all");
+    const filterSelectElem = document.getElementById("filter");
+    filterSelectElem.innerHTML = "";
+    filterSelectElem.innerHTML = '<option value="">Select project</option>';
+    for (let project of projects) {
+      const option = document.createElement("option");
+      option.innerText =
+        project[0].toUpperCase() + project.substring(1).toLowerCase();
+      option.setAttribute("value", project);
+      if (project === selectedProject) {
+        option.setAttribute("selected", "selected");
+      }
+      filterSelectElem.appendChild(option);
+    }
+    filterSelectElem.addEventListener("change", handleFilterChange);
+  }
+
   function renderTodos() {
-    const root = document.getElementById("root");
+    const root = document.getElementById("main");
     const todos = getTodos();
     let todosContainer = document.querySelector(".todo-container");
     if (todosContainer) {
@@ -152,6 +215,7 @@
     }
     todosContainer = createTodosContainer(todos);
     root.appendChild(todosContainer);
+    buildAndAttachFilter();
   }
 
   function getNextId() {
@@ -167,6 +231,7 @@
     const project = e.target.project.value || "default";
     const isCompleted = false;
     const id = getNextId();
+    const todos = getTodos();
     todos.push({
       title,
       dueDate,
@@ -176,6 +241,7 @@
       isCompleted
     });
     e.target.reset();
+    window.localStorage.setItem("todos", JSON.stringify(todos));
     renderTodos();
   }
 
