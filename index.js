@@ -108,6 +108,12 @@
       detailElement.classList.add("hidden");
     };
 
+    const handleTogglePriority = () => {
+      todo.isImportant = !todo.isImportant;
+      window.localStorage.setItem("todos", JSON.stringify(todos));
+      renderTodos();
+    };
+
     const todoTitle = document.createElement("div");
     todoTitle.classList.add("title");
     const todoTitleText = document.createElement("div");
@@ -118,9 +124,12 @@
     const todoDetail = document.createElement("div");
     todoDetail.classList.add("todo-detail");
     const dueDateElem = document.createElement("div");
-    dueDateElem.textContent = new Date(todo.dueDate).toLocaleDateString();
+    dueDateElem.textContent =
+      "Due date:" + new Date(todo.dueDate).toLocaleDateString();
     const priorityElem = document.createElement("div");
+    priorityElem.classList.add("todo-priority");
     priorityElem.textContent = todo.isImportant ? "Important" : "Not important";
+    priorityElem.addEventListener("click", handleTogglePriority);
     const hideBtn = document.createElement("button");
     hideBtn.classList.add("hide-detail-btn");
     hideBtn.textContent = "Hide";

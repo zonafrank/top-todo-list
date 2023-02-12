@@ -61,3 +61,7 @@ body {
 .hide-detail-btn {
   font-size: 0.6rem;
 }
+
+.todo-priority {
+  cursor: pointer;
+}
