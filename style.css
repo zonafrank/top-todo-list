@@ -1,0 +1,46 @@
+body {
+  /* background-color: blue; */
+}
+
+#root {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.todos {
+  margin: 0;
+  padding: 0;
+}
+
+.todo {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.3rem;
+}
+
+.todo-title {
+  margin-right: auto;
+}
+
+.todo-completed .todo-title {
+  text-decoration: line-through;
+  color: lightgray;
+}
+
+.form-input {
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
+
+.form-input input {
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding: 0.2rem;
+}
+
+.form-input [type="radio"] {
+  display: inline-block;
+  width: unset;
+}

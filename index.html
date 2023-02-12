@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+      integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="root">
+      <form id="todo-form">
+        <h2>Add Todo</h2>
+        <div class="form-input">
+          <label for="title">
+            Title: <input type="text" id="title" name="title" />
+          </label>
+        </div>
+        <div class="form-input">
+          <label for="due-date"
+            >Due date: <input type="date" name="due-date" id="due-date"
+          /></label>
+        </div>
+        <div class="form-input">
+          <label for="project"
+            >Project: <input type="text" name="project" id="project"
+          /></label>
+        </div>
+        <div class="form-input">
+          <label for="todo-important-true"
+            ><input
+              type="radio"
+              name="important"
+              id="important-true"
+              value="1"
+            />
+            Important</label
+          >
+          <label for="important-false"
+            ><input
+              type="radio"
+              name="important"
+              id="important-false"
+              value="0"
+              checked
+            />
+            Not Important</label
+          >
+        </div>
+        <button type="submit">Save</button>
+      </form>
+      <h2>Todo List</h2>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
